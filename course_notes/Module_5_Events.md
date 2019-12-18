@@ -2,7 +2,11 @@
 Things in the DOM will emit events when they are interacted with. 
 
 ## Event Listeners
-We can attach _event listeners_ to all elements to listen to those events. The process is: 
+We can attach _event listeners_ to all elements to listen to those events.
+
+It takes three arguments: the event it's listening for, the function to run when the event happens, and an options object.
+
+The process is: 
 - Get something (select an element from the DOM)
 - Listen for something ( an event)
 - Do something (call a function)
@@ -52,7 +56,33 @@ function attachListener(singleElement){
 elements.forEach(attachListener);
 ````
 
-
 ---
 
-## 
+## Event Object 
+
+If we have a single function handling the clicking of multiple buttons, how do we know which button is getting clicked? 
+
+The _event object_ is an object filled with information and methods about the event. To access this object we modify the callback function to take a parametrer: `function handleEvent(event)`.
+
+You can access anything avout the element via `event.target`. 
+
+`event.currentTarget` – the element that fired the event listener, as opposed to the specific element you clicked (a `<button>` vs the `<strong>` tag on text inside the button)
+
+### Propagation
+When you interact with a small element in the page, you are also interacting with all the things it is nested in: the `<div>`, the `<body>`, the `<html>`, the window, the browser, all the way to the OS. So a click in a button _bubbles up_ all the way to the OS. 
+
+Your can stop it with a method on the event: `event.stopPropagation()`. 
+
+### Capture
+An interaction such as a click actually goes through every single DOM node until reaching the lowest thing (such as button). So you can do the opposite of stopping propagation through `capture` in the options object in the event listener. 
+
+`{ capture: true }`
+
+## This vs e.currentTarget
+`this` is a special word in JS: if you have a callback function and you'd like to reference the element it was called against, you can use `this`. It is always equal to **whatever is to the left of the dot** on the `addEventListener`. 
+
+However it can be confusing because it references something else when usign arrow functions, it is recommended to use `e.currentTarget` as a _safer_ way to reference your element.
+
+## Prevent Default
+
+A few elements in HTML have default functionality. To prevent it from happening, use `event.preventDefault()`
