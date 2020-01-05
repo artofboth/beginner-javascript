@@ -15,30 +15,30 @@ let randomX = Math.floor(Math.random() * width);
 
 // Changing coordinated based on arrow keys
 
-// This is working on the console, but not for the actual line: I think I am misunderstanding the lineTo() method, and wether it just gets updated whenever I update the variable. Need to create a function that runs the method each time a key is pressed, perhaps? Will try this in the afternoon.
+// Ok, this is progress, but I made the mistake of keeping the line coordinated at the same origina point: the line needs to be drawn from the last coordinate to the next, not from the very first start point. How? 
 
-let x = 0;
-let y = 0;
+let x = randomX;
+let y = randomY;
+
 
 function handleKey(e) {
     const key = e.key;
     if (key === 'ArrowDown') {
-        y++;
-        console.log(y);
+        y = y + 5;
     } else if (key === 'ArrowUp') {
-        y--;
+        y = y - 5;
     } else if (key === 'ArrowRight') {
-        x++;
+        x = x + 5;
     } else if (key === 'ArrowLeft') {
-        x--;
+        x = x - 5;
     }
 
     console.log(x, y);
+
+    ctx.lineWidth = 20;
+    ctx.moveTo(randomX, randomY);
+    ctx.lineTo(x, y);
+    ctx.stroke();
 }
 
 document.addEventListener('keydown', handleKey);
-
-ctx.lineWidth = 20;
-ctx.moveTo(randomX, randomY);
-ctx.lineTo(randomX + x, randomY + y);
-ctx.stroke();
