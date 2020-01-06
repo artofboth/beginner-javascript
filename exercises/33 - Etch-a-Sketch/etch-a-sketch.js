@@ -1,44 +1,62 @@
-console.log('works');
-
-//Grabbing the canvas
+// Grabbing the canvas
 const canvas = document.querySelector('#etch-a-sketch');
 
-//Creating a drawing object
+// Creating a drawing object
 const ctx = canvas.getContext('2d');
 
 // Starting coordinates at random points in the Canvas.
 const width = canvas.getAttribute('width');
 const height = canvas.getAttribute('height');
-let randomY = Math.floor(Math.random() * height);
-let randomX = Math.floor(Math.random() * width);
+const randomY = Math.floor(Math.random() * height);
+const randomX = Math.floor(Math.random() * width);
 
-
-// Changing coordinated based on arrow keys
-
-// Ok, this is progress, but I made the mistake of keeping the line coordinated at the same origina point: the line needs to be drawn from the last coordinate to the next, not from the very first start point. How? 
+ctx.lineWidth = 40;
+ctx.lineCap = 'round';
+ctx.lineJoin = 'round';
 
 let x = randomX;
 let y = randomY;
 
+ctx.moveTo(randomX, randomY);
 
+// Changing coordinates based on arrow keys
 function handleKey(e) {
-    const key = e.key;
-    if (key === 'ArrowDown') {
-        y = y + 5;
-    } else if (key === 'ArrowUp') {
-        y = y - 5;
-    } else if (key === 'ArrowRight') {
-        x = x + 5;
-    } else if (key === 'ArrowLeft') {
-        x = x - 5;
-    }
+  const { key } = e;
 
-    console.log(x, y);
+  if (key === 'ArrowDown') {
+    y += 5;
+  } else if (key === 'ArrowUp') {
+    y -= 5;
+  } else if (key === 'ArrowRight') {
+    x += 5;
+  } else if (key === 'ArrowLeft') {
+    x -= 5;
+  }
 
-    ctx.lineWidth = 20;
-    ctx.moveTo(randomX, randomY);
-    ctx.lineTo(x, y);
-    ctx.stroke();
+  const border = 20;
+
+  if (x > width) {
+    x -= border;
+  } else if (x < 0) {
+    x += border;
+  }
+  if (y < 0) {
+    y += border;
+  } else if (y > height) {
+    y -= border;
+  }
+
+  //   let hue = 0;
+  //   while (hue < 360) {
+  //     hue += 45;
+  //   }
+
+  ctx.lineTo(x, y);
+  ctx.stroke();
+
+  //   console.log(hue);
 }
+
+// ctx.strokeStyle = `hsl(${color}, 100%, 50%)`;
 
 document.addEventListener('keydown', handleKey);
