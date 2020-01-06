@@ -1,36 +1,64 @@
 // Grabbing the canvas
 const canvas = document.querySelector('#etch-a-sketch');
-
+const button = document.querySelector('.shake');
 // Creating a drawing object
 const ctx = canvas.getContext('2d');
 
 // Starting coordinates at random points in the Canvas.
 const width = canvas.getAttribute('width');
 const height = canvas.getAttribute('height');
-const randomY = Math.floor(Math.random() * height);
-const randomX = Math.floor(Math.random() * width);
+const MOVE_AMOUNT = 20;
+
+function shakeCanvas() {
+  canvas.classList.add('shake');
+  ctx.clearRect(0, 0, width, height);
+  canvas.addEventListener(
+    'animationend',
+    function() {
+      canvas.classList.remove('shake');
+    },
+    { once: true } // calls removeEventListener for you every time it is run.
+  );
+}
+
+button.addEventListener('click', shakeCanvas);
+
+let y = Math.floor(Math.random() * height);
+let x = Math.floor(Math.random() * width);
 
 ctx.lineWidth = 40;
 ctx.lineCap = 'round';
 ctx.lineJoin = 'round';
+let hue = 0;
 
-let x = randomX;
-let y = randomY;
-
-ctx.moveTo(randomX, randomY);
+ctx.beginPath();
+ctx.moveTo(x, y);
+ctx.lineTo(x, y);
+ctx.stroke();
 
 // Changing coordinates based on arrow keys
 function handleKey(e) {
   const { key } = e;
 
+  e.preventDefault();
+
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+
+  if (hue < 360) {
+    hue += 45;
+  } else {
+    hue = 0;
+  }
+
   if (key === 'ArrowDown') {
-    y += 5;
+    y += MOVE_AMOUNT;
   } else if (key === 'ArrowUp') {
-    y -= 5;
+    y -= MOVE_AMOUNT;
   } else if (key === 'ArrowRight') {
-    x += 5;
+    x += MOVE_AMOUNT;
   } else if (key === 'ArrowLeft') {
-    x -= 5;
+    x -= MOVE_AMOUNT;
   }
 
   const border = 20;
@@ -46,17 +74,11 @@ function handleKey(e) {
     y -= border;
   }
 
-  //   let hue = 0;
-  //   while (hue < 360) {
-  //     hue += 45;
-  //   }
-
   ctx.lineTo(x, y);
   ctx.stroke();
-
-  //   console.log(hue);
+  ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
 }
 
-// ctx.strokeStyle = `hsl(${color}, 100%, 50%)`;
+ctx.moveTo(x, y);
 
 document.addEventListener('keydown', handleKey);
