@@ -49,3 +49,32 @@ If the first item is false, the second item will never run. So the result is the
 ## Other
 
 You can place if statements in a block with `{}`. However if they are a single line you can write them without the curly brackets: `if(isAdmin) showAdminBar()` is correct. Wether you like that or not is up to you. 
+
+## Case Switch
+
+Sometimes easier to read than `if` statements, but they need to contain defined individual cases, not conditions. You must also `break` after each case, and it is best preactice to include a `default` case.
+
+````
+function handleKeyDown(e){
+    switch(e.key){
+        case 'ArrowUp':
+            y = y - 1;
+            break;
+        case 'ArrowDown':
+            y = y + 1;
+            break;
+        default: 
+            console.log('not a valid move');
+            break;
+    }
+}
+````
+ ## Intervals and Timers
+
+ They are methods on the `window` object and take two parametres: the function to be run, and the time in miliseconds of either the timer or interval period.
+
+`setTimeOut`: something happens after a period. 
+
+`setInterval`: something happens every so often. The only gotcha is that it triggers the function only after the time of the interval has ellapsed at the start. 
+
+
