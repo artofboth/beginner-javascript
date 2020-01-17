@@ -12,6 +12,7 @@
 
 <body>
   <script>
+
     const toppings = ['Mushrooms ', 'Tomatoes', 'Eggs', 'Chili', 'Lettuce', 'Avocado', 'Chiles', 'Bacon', 'Pickles', 'Onions', 'Cheese'];
 
     const buns = ['egg', 'wonder', 'brioche'];
@@ -45,36 +46,122 @@
     */
 
     // Array.of();
+    const myArray = Array.of(12);
+    console.log(myArray);
 
     // Make a function that creates a range from x to y with Array.from();
-
     // Check if the last array you created is really an array with Array.isArray();
 
+    const arrayFromRange = function (target, x, y) {
+      const arrayCopy = Array.from(target);
+      const newArray = target.splice(x -= 1, y += 1);
+      const isArray = Array.isArray(newArray);
+      console.log(newArray, isArray);
+    }
+
+    //arrayFromRange(toppings, 3, 4);
+
     // Take the meats object and make three arrays with Object.entries(), Object.keys, Object.values()
+
+    const meatArrays = meatArrays => {
+      const meatEntries = Array(...Object.entries(meats));
+      const meatKeys = Array(...Object.keys(meats));
+      const meatValues = Array(...Object.values(meats));
+      console.log(meatEntries);
+      console.log(meatKeys);
+      console.log(meatValues);
+    }
+    meatArrays();
 
     /*
       Instance Methods
     */
 
     // Display all bun types with " or " - use join()
+    const jointBuns = buns.join(' or ');
+    console.log(jointBuns);
 
     // We have a string "hot dogs,hamburgers,sausages,corn" - use split() to turn it into a string
+    const menuString = "hot dogs,hamburgers,sausages,corn"
+    const menu = menuString.split(',');
+    console.log(menu);
 
-    // take the last item off toppings with pop()
-    // add it back with push()
-    // take the first item off toppings with shift()
-    // add it back in with unshift()
+    // // take the last item off toppings with pop()
+    // toppings.pop();
+
+    // // add it back with push()
+    // toppings.push('Cheese');
+    // console.log(toppings);
+
+    // // take the first item off toppings with shift()
+    // toppings.shift();
+    // console.log(toppings);
+
+    // // add it back in with unshift()
+    // toppings.unshift('Mushrooms');
+    // console.log(toppings);
+
     // Do the last four,but immutable (with spreads and new variables)
+    const changeArray = function (originalArray, task) {
+      const arrayCopy = Array(...originalArray);
+      console.clear();
+      console.log(arrayCopy);
 
+      let index = 0;
+      let item = originalArray[index];
+
+      switch (task) {
+        case 'push':
+          index = 5;
+          item = originalArray[index];
+          arrayCopy.push(item);
+          break;
+
+        case 'pop':
+          arrayCopy.pop();
+          break;
+
+        case 'shift':
+          arrayCopy.shift();
+          break;
+
+        case 'unshift':
+          index = 0;
+          arrayCopy.unshift(item);
+          break;
+
+        default:
+          return ('not valid');
+      }
+
+      return arrayCopy;
+    }
+
+    result = changeArray(toppings, 'pop');
+    console.log(result);
 
     // Make a copy of the toppings array with slice()
-    // Make a copy of the toppings array with a spread
-    // take out items 3 to 5 of your new toppings array with splice()
-    // find the index of Avocado with indexOf() / lastIndexOf()
-    // Check if hot sauce is in the toppings with includes()
-    // add it if it's not
-    // flip those toppings around with reverse()
+    const toppingsSlice = toppings.slice(0, (toppings.length));
 
+    // Make a copy of the toppings array with a spread
+    const toppingsCopy = Array(...toppings);
+
+    // take out items 3 to 5 of your new toppings array with splice()
+    toppingsCopy.splice(2, 3);
+
+    // find the index of Avocado with indexOf() / lastIndexOf()
+    console.log(toppings.lastIndexOf('Avocado'));
+    console.log(toppings.indexOf('Avocado'));
+
+    // Check if hot sauce is in the toppings with includes()
+    const hotSauce = toppings.includes('Hot Sauce');
+    // add it if it's not
+    if (!hotSauce) toppings.push('Hot Sauce');
+
+
+    // flip those toppings around with reverse()
+    toppings.reverse();
+    console.log(toppings);
     /*
       Callback Methods
     */

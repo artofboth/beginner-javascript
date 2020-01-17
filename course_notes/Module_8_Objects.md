@@ -63,3 +63,6 @@ You can use `JSON.stringify(objectName)` to convert your object into a string th
 - Arrays are _zero-base_: the index starts at zero.
 - Arrays have lots of methods we can use for working with them.
 - Some methods are mutable and some are immutable, meaning that some methods alter your original array and some create a new one.
+
+### Array Methods
+
