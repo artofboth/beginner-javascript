@@ -12,8 +12,9 @@
 
 <body>
   <script>
-
-    const toppings = ['Mushrooms ', 'Tomatoes', 'Eggs', 'Chili', 'Lettuce', 'Avocado', 'Chiles', 'Bacon', 'Pickles', 'Onions', 'Cheese'];
+    const toppings = ['Mushrooms ', 'Tomatoes', 'Eggs', 'Chili', 'Lettuce', 'Avocado', 'Chiles', 'Bacon', 'Pickles',
+      'Onions', 'Cheese'
+    ];
 
     const buns = ['egg', 'wonder', 'brioche'];
 
@@ -32,12 +33,26 @@
 
     const orderTotals = [342, 1002, 523, 34, 634, 854, 1644, 2222];
 
-    const feedback = [
-      { comment: 'Love the burgs', rating: 4 },
-      { comment: 'Horrible Service', rating: 2 },
-      { comment: 'Smoothies are great, liked the burger too', rating: 5 },
-      { comment: 'Ambiance needs work', rating: 3 },
-      { comment: 'I DONT LIKE BURGERS', rating: 1 },
+    const feedback = [{
+        comment: 'Love the burgs',
+        rating: 4
+      },
+      {
+        comment: 'Horrible Service',
+        rating: 2
+      },
+      {
+        comment: 'Smoothies are great, liked the burger too',
+        rating: 5
+      },
+      {
+        comment: 'Ambiance needs work',
+        rating: 3
+      },
+      {
+        comment: 'I DONT LIKE BURGERS',
+        rating: 1
+      },
     ];
 
 
@@ -162,25 +177,79 @@
     // flip those toppings around with reverse()
     toppings.reverse();
     console.log(toppings);
+
     /*
       Callback Methods
     */
 
+    console.clear();
     // find the first rating that talks about a burger with find()
+    //It calls a function that returns true or false when it finds the argument it wants
+
+    //You can turn this function into an arrow function:
+    // function findBurgRating(singleFeedback) {
+    //   return singleFeedback.comment.includes('burg');
+    // }
+
+    //And go one step further and make the return implicit: 
+    // const findBurgRating = (singleFeedback) => {
+    //   return singleFeedback.comment.includes('burg');
+    // }
+
+    // const findBurgRating = (singleFeedback) => singleFeedback.comment.includes('burg');
+
+    //Going one step further, we can create a function within a function, that will take whatever word we want to search for: 
+
+    function findByWord(word) {
+      return function (singleFeedback) {
+        return singleFeedback.comment.includes(word);
+      }
+    }
+
+    const burgRating = feedback.find(findByWord('burg'));
+    console.log(burgRating);
+
+    // const burgRating = feedback.find(burgers => feedback.comment.includes('burg'));
+
     // find all ratings that are above 2 with filter()
+    const aboveTwo = feedback.filter(singleFeedback => singleFeedback.rating > 2);
+
     // find all ratings that talk about a burger with filter()
+    const filterBurger = feedback.filter(findByWord('burg'));
+
+
     // Remove the one star rating however you like!
+    const aboveOne = feedback.filter(singleFeedback => singleFeedback.rating !== 1);
 
     // check if there is at least 5 of one type of meat with some()
+    const meatQtyArray = Object.values(meats);
+    const singleQtyEnough = meatQtyArray.some(value => value >= 5);
+
     // make sure we have at least 3 of every meat with every()
+    const everyMeat = meatQtyArray.every(value => value >= 3);
+    console.log(everyMeat);
+
     // sort the toppings alphabetically with sort()
-    // sort the order totals from most expensive to least with .sort()
+    const sortedToppings = toppings.sort();
+    console.log(sortedToppings);
+
+    // Sort the order totals from most expensive to least with .sort()
+    // Because sort() sorts things alphabetically, in order to sort numbers you need to pass it a function that compares each item against the one next to it and swaps their places according to wether they are larger or smaller than each other. 
+
+    const sortNumber = (firstItem, secondItem) => firstItem - secondItem;
+    const sortOrders = orderTotals.sort(sortNumber);
+
     // Sort the prices with sort()
+    //In this case we use Object.entries so that we can keep each item's name and price together as an array. We then use the same logic as the function that sorts numbers (above), except we make sure to select each array's second item (the price) like so:
+    const pricesArray = Object.entries(prices);
+    const sortPrices = pricesArray.sort(function (a, b) {
+      const aPrice = a[1];
+      const bPrice = b[1];
+      return aPrice - bPrice;
+    });
 
-    /*
-      Looping Methods (next)
-    */
-
+    //We can then use Object.fromEntries to turn the above back into a regular object
+    console.table(Object.fromEntries(sortPrices));
   </script>
 </body>
 
