@@ -6,7 +6,7 @@
 
 `const myObject = {}`
 
-- Objects are used for when the order of the properties does not matter.
+- Properties appear in the order you place them in, except when they are numbers (which get shifted to the top)
 - Your store values within keywords inside the object, and they can be of any type.
 - Properties of an object mostly follow the same rules as variables, with some exceptions (property names can include dashes and spaces and number)
 - **Comma Dangling**: it's best practice to include a comma after your properties, even if they're not followed by anything.
