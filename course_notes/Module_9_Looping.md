@@ -48,6 +48,34 @@ function tallyNumbers( tally, currentOrder ){
 }
 
 const all Orders = orders.reduce(tallyNumber, 0);
+```
+
+## Other Loops
+
+### For Loop
+
+`for (let i = 0; i <= 7; i++){ something to run 7 times }`
+
+- In the `canvas` element, you can pull out the raw data of each RGB pixel in the image through `ImageData` (four values, red, green, blue and alpha, for each individual pixel). For loops are useful for looping over that kind of data. 
+
+### For Of
+- Used for looping over **iterables** (things that have a length). The loop below returns each letter of the string `name`. 
+- This loop can handle emojis. 
+- Useful for sequencing promises. 
+```
+const name = 'wed bos';
+for( letter of name){ console log(letter) };
+```
+
+### For In
+- Used for looping over the keys of an object. 
+
+### While Loop
+- Takes a condition and runs infinitely until the condition is met. 
+- Checks a condition and then runs a certain code.
+
+### Do While Loop
+- Does the above in the reverse order, running code and checking a condition after it has been run for the first time.  `do { block } while()`
 
 ---
 ## Additional Notes
