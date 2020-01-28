@@ -12,7 +12,7 @@
   <script>
     // Grab all the text from a web page
     // Count how many times each letter and number occurs.
-    const text = `
+    let text = `
       
 King James Programming
 
@@ -89,7 +89,26 @@ Ask
 Based on Ashley theme by Jxnblk
 `;
 
+    text = text.toLowerCase();
+    const regex = new RegExp(/\w/); // Finds all characters that aren't spaces and punctuation
 
+    const allCharacters = Array.from(text);
+    const characters = allCharacters.filter(char => char.match(regex));
+    let counter = [];
+
+    characters.forEach(char = (char) => {
+      function reducer(accumulator, currentValue) {
+        currentValue === char ? accumulator++ : null;
+        return accumulator;
+      }
+
+      let result = characters.reduce(reducer, 0);
+      counter.push(`${char} = ${result}`);
+
+
+    });
+
+    console.table(counter);
 
 
   </script>
