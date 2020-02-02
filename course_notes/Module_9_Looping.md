@@ -63,7 +63,7 @@ const all Orders = orders.reduce(tallyNumber, 0);
 - This loop can handle emojis. 
 - Useful for sequencing promises. 
 ```
-const name = 'wed bos';
+const name = 'wes bos';
 for( letter of name){ console log(letter) };
 ```
 
