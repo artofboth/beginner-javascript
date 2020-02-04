@@ -1,12 +1,9 @@
 console.log('it works');
-
 const text = document.querySelector('[name=text]');
 
 const handleClick = e => {
   const filter = e.currentTarget.id;
-  console.log(e.currentTarget.id);
   const words = new Array(...text.value);
-
   function filtering(char, i) {
     if (filter === 'sarcastic') {
       i % 3 === 0 ? (char = char.toUpperCase()) : char;
@@ -20,7 +17,8 @@ const handleClick = e => {
 
   const filteredWords = words.map(filtering);
   const result = filteredWords.join('');
-  console.log(result);
+
+  text.value = result;
 };
 
 const filters = document.querySelectorAll('[name=filter]');
