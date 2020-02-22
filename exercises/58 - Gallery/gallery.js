@@ -1,91 +1,58 @@
-function Gallery(gallery) {
-  if (!gallery) {
-    throw new Error('No Gallery Found!');
-  }
-  // select the elements we need
-  const images = Array.from(gallery.querySelectorAll('img'));
-  const modal = document.querySelector('.modal');
-  const prevButton = modal.querySelector('.prev');
-  const nextButton = modal.querySelector('.next');
-  let currentImage;
+//Selecting elements
+const modal = document.querySelector('.modal');
+const images = document.querySelectorAll('.gallery1 img');
 
-  function openModal() {
-    console.info('Opening Modal...');
-    // First check if the modal is already open
-    if (modal.matches('.open')) {
-      console.info('Madal already open');
-      return; // stop the function from running
-    }
-    modal.classList.add('open');
+//Modal Elements
+const modalImg = document.querySelector('.modal img');
+const modalTitle = document.querySelector('.modal h2');
+const modalDescription = document.querySelector('.modal p');
+const modalNext = document.querySelector('.modal .next');
+const modalPrev = document.querySelector('.modal .prev');
 
-    // Event listeners to be bound when we open the modal:
-    window.addEventListener('keyup', handleKeyUp);
-    nextButton.addEventListener('click', showNextImage);
-    prevButton.addEventListener('click', showPrevImage);
-  }
+//Array to store image data. 
+const imgData = [];
 
-  function closeModal() {
-    modal.classList.remove('open');
-    // TODO: add event listeners for clicks and keyboard..
-    window.removeEventListener('keyup', handleKeyUp);
-    nextButton.removeEventListener('click', showNextImage);
-    prevButton.removeEventListener('click', showPrevImage);
-  }
-
-  function handleClickOutside(e) {
-    if (e.target === e.currentTarget) {
-      closeModal();
-    }
-  }
-
-  function handleKeyUp(event) {
-    if (event.key === 'Escape') return closeModal();
-    if (event.key === 'ArrowRight') return showNextImage();
-    if (event.key === 'ArrowLeft') return showPrevImage();
-  }
-
-  function showNextImage() {
-    showImage(currentImage.nextElementSibling || gallery.firstElementChild);
-  }
-  function showPrevImage() {
-    showImage(currentImage.previousElementSibling || gallery.lastElementChild);
-  }
-
-  function showImage(el) {
-    if (!el) {
-      console.info('no image to show');
-      return;
-    }
-    // update the modal with this info
-    console.log(el);
-    modal.querySelector('img').src = el.src;
-    modal.querySelector('h2').textContent = el.title;
-    modal.querySelector('figure p').textContent = el.dataset.description;
-    currentImage = el;
-    openModal();
-  }
-
-  // These are our Event Listeners!
-  images.forEach(image =>
-    image.addEventListener('click', e => showImage(e.currentTarget))
-  );
-
-  // loop over each image
-  images.forEach(image => {
-    // attach an event listener for each image
-    image.addEventListener('keyup', e => {
-      // when that is keyup'd, check if it was enter
-      if (e.key === 'Enter') {
-        // if it was, show that image
-        showImage(e.currentTarget);
-      }
-    });
-  });
-
-  modal.addEventListener('click', handleClickOutside);
+//Make a function that gets the data from each individual image into an object and pushes that object into our imgData array. 
+const makeDataObject = function (img) {
+  const src = img.src;
+  const title = img.title;
+  const description = img.dataset.description;
+  let imgObject = {
+    src,
+    title,
+    description
+  };
+  imgData.push(imgObject);
 }
 
-// Use it on the page
+const openModal = function (e) {
+  modal.classList.toggle('open');
+}
 
-const gallery1 = Gallery(document.querySelector('.gallery1'));
-const gallery2 = Gallery(document.querySelector('.gallery2'));
+let modalData = imgData[i];
+let i = 0;
+
+const handleClick = function (e) {
+  openModal(e);
+
+  const clickedImgSrc = e.target.src;
+  const clickedImg = imgData.find(img => img.src === clickedImgSrc);
+  i = imgData.indexOf(clickedImg);
+
+  modalData = imgData[i];
+  console.log(modalData);
+
+  populateModal(modalData);
+}
+
+// Get the data of this specific image and populate the modal with it.
+const populateModal = function (modalData) {
+  modalImg.src = modalData.src;
+  modalTitle.textContent = modalData.title;
+  modalDescription.textContent = modalData.description;
+}
+
+//Loop over each individual image with the function above. 
+images.forEach(makeDataObject);
+images.forEach(img = (e) => addEventListener('click', handleClick));
+modalNext.addEventListener('click', handleClick);
