@@ -1,86 +1,91 @@
-//Selecting elements
-const modal = document.querySelector('.modal');
-const galleries = document.querySelectorAll('.gallery')
-const images = document.querySelectorAll('.gallery1 img');
+//Creating a function that is scoped to a specific gallery, so it can run on both and not interfere with each other. 
 
-//Modal Elements
-const modalImg = document.querySelector('.modal img');
-const modalTitle = document.querySelector('.modal h2');
-const modalDescription = document.querySelector('.modal p');
-const modalNext = document.querySelector('.modal .next');
-const modalPrev = document.querySelector('.modal .prev');
-
-//Array to store image data. 
-const imgData = [];
-
-//Make a function that gets the data from each individual image into an object and pushes that object into our imgData array. 
-const makeDataObject = function (img) {
-  const src = img.src;
-  const title = img.title;
-  const description = img.dataset.description;
-  let imgObject = {
-    src,
-    title,
-    description
-  };
-  imgData.push(imgObject);
-}
-
-//Opening modal
-const openElement = function (element) {
-  element.classList.add('open');
-}
-
-const closeElement = function (element) {
-  element.classList.remove('open');
-}
-
-let i;
-let modalData;
-
-const handleClick = function (e) {
-  openElement(modal);
-  const clickedImgSrc = e.target.src;
-  const clickedImg = imgData.find(img => img.src === clickedImgSrc);
-  i = imgData.indexOf(clickedImg);
-  populateModal(i);
-}
-
-const handleArrow = function (e) {
-  if (e.target === modalNext && i < imgData.length - 1) {
-    i++;
-  } else if (e.target === modalPrev && i > 0) {
-    i--;
-  } else if (e.target === modalPrev && i === 0) {
-    i = imgData.length - 1;
-  } else {
-    i = 0;
+function Gallery(gallery) {
+  if (!gallery) {
+    throw new Error('No Gallery detected.')
+    return;
   }
-  populateModal(i);
-}
 
-// Get the data of this specific image and populate the modal with it.
-function populateModal(index) {
-  modalData = imgData[index];
-  modalImg.src = modalData.src;
-  modalTitle.textContent = modalData.title;
-  modalDescription.textContent = modalData.description;
-}
+  const images = Array.from(gallery.querySelectorAll('img'));
+  const modal = document.querySelector('.modal');
+  const prevButton = modal.querySelector('.prev');
+  const nextButton = modal.querySelector('.next');
+  let currentImage;
 
-//Loop over each individual image with the function above. 
-images.forEach(makeDataObject);
-images.forEach(image = (e) => e.addEventListener('click', handleClick));
-
-const handleModalClick = function (e) {
-  console.log(e.code)
-  if (!e.target.closest('.modalInner')) {
-    closeElement(modal)
-  } else if (
-    e.target === modalNext ||
-    e.target === modalPrev
-  ) {
-    handleArrow(e);
+  function openModal() {
+    //Checking if the modal is open
+    if (modal.matches('.open')) {
+      return; //Stop the function from running
+    }
+    modal.classList.add('open');
+    //Binding event listener when opening modal
+    nextButton.addEventListener('click', showNextImage);
+    prevButton.addEventListener('click', showPrevImage);
+    window.addEventListener('keyup', handleKeyUp);
   }
-}
 
-modal.addEventListener('click', handleModalClick);
+  function closeModal() {
+    modal.classList.remove('open');
+    //TODO event listener for keyboard and click
+    nextButton.removeEventListener('click', showNextImage);
+    prevButton.removeEventListener('click', showPrevImage);
+    window.removeEventListener('keyup', handleKeyUp);
+  }
+
+  function handleClickOutsideModal(event) {
+    //If the thing the user clicked is the same as the thing you are listening on (the modal), this means the user hasn't clicked on anything in the inner Modal. 
+    if (event.target === event.currentTarget) {
+      closeModal();
+    }
+  }
+
+  function handleKeyUp(event) {
+    //Adding the word return stops the function from running further if the condition was met. 
+    if (event.key === 'Escape') return closeModal();
+    if (event.key === 'ArrowRight') return showNextImage();
+    if (event.key === 'ArrowLeft') return showPrevImage();
+  }
+
+  function showNextImage() {
+    showImage(currentImage.nextElementSibling || gallery.firstElementChild);
+  }
+
+  function showPrevImage() {
+    showImage(currentImage.previousElementSibling || gallery.lastElementChild);
+  }
+
+  function showImage(element) {
+    if (!element) {
+      console.info('No image to show.');
+      return;
+    }
+    modal.querySelector('img').src = element.src;
+    modal.querySelector('h2').textContent = element.title;
+    modal.querySelector('figure p').textContent = element.dataset.description;
+    //Keeping track of whatever the current image is. 
+    currentImage = element;
+    openModal();
+  }
+
+  //Event Listener
+  images.forEach(image => image.addEventListener('click', (e) => showImage(e.currentTarget)));
+  modal.addEventListener('click', handleClickOutsideModal);
+
+  //Loop over each image
+  images.forEach(image => {
+    //Attach an event listener to each
+    image.addEventListener('keyup', e => {
+      //Check if the key is enter, if it is, show the image
+      if (e.key === 'Enter') {
+        showImage(e.currentTarget);
+      }
+    })
+  })
+
+
+
+}
+//Referencing whatever gallery you'd like to use
+
+const gallery1 = Gallery(document.querySelector('.gallery1'));
+const gallery2 = Gallery(document.querySelector('.gallery2'));
