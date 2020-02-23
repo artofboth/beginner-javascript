@@ -1,5 +1,6 @@
 //Selecting elements
 const modal = document.querySelector('.modal');
+const galleries = document.querySelectorAll('.gallery')
 const images = document.querySelectorAll('.gallery1 img');
 
 //Modal Elements
@@ -25,28 +26,42 @@ const makeDataObject = function (img) {
   imgData.push(imgObject);
 }
 
-const openModal = function (e) {
-  modal.classList.toggle('open');
+//Opening modal
+const openElement = function (element) {
+  element.classList.add('open');
 }
 
-let modalData = imgData[i];
-let i = 0;
+const closeElement = function (element) {
+  element.classList.remove('open');
+}
+
+let i;
+let modalData;
 
 const handleClick = function (e) {
-  openModal(e);
-
+  openElement(modal);
   const clickedImgSrc = e.target.src;
   const clickedImg = imgData.find(img => img.src === clickedImgSrc);
   i = imgData.indexOf(clickedImg);
+  populateModal(i);
+}
 
-  modalData = imgData[i];
-  console.log(modalData);
-
-  populateModal(modalData);
+const handleArrow = function (e) {
+  if (e.target === modalNext && i < imgData.length - 1) {
+    i++;
+  } else if (e.target === modalPrev && i > 0) {
+    i--;
+  } else if (e.target === modalPrev && i === 0) {
+    i = imgData.length - 1;
+  } else {
+    i = 0;
+  }
+  populateModal(i);
 }
 
 // Get the data of this specific image and populate the modal with it.
-const populateModal = function (modalData) {
+function populateModal(index) {
+  modalData = imgData[index];
   modalImg.src = modalData.src;
   modalTitle.textContent = modalData.title;
   modalDescription.textContent = modalData.description;
@@ -54,5 +69,18 @@ const populateModal = function (modalData) {
 
 //Loop over each individual image with the function above. 
 images.forEach(makeDataObject);
-images.forEach(img = (e) => addEventListener('click', handleClick));
-modalNext.addEventListener('click', handleClick);
+images.forEach(image = (e) => e.addEventListener('click', handleClick));
+
+const handleModalClick = function (e) {
+  console.log(e.code)
+  if (!e.target.closest('.modalInner')) {
+    closeElement(modal)
+  } else if (
+    e.target === modalNext ||
+    e.target === modalPrev
+  ) {
+    handleArrow(e);
+  }
+}
+
+modal.addEventListener('click', handleModalClick);
