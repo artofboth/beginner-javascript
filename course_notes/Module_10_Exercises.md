@@ -27,3 +27,8 @@ Mini database that allows users of the appplication to return to it on the same 
 
 `e.target` = thing you cliked on. 
 `e.currentTarget` = thing you listened for the event on.
+
+## Slider
+
+### instanceOf Element
+Checking if something passed in your code is an actual document element. 
