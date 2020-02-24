@@ -1,8 +1,11 @@
+//Creating a function that is scoped to a specific gallery, so it can run on both and not interfere with each other. 
+
 function Gallery(gallery) {
   if (!gallery) {
-    throw new Error('No Gallery Found!');
+    throw new Error('No Gallery detected.')
+    return;
   }
-  // select the elements we need
+
   const images = Array.from(gallery.querySelectorAll('img'));
   const modal = document.querySelector('.modal');
   const prevButton = modal.querySelector('.prev');
@@ -10,35 +13,34 @@ function Gallery(gallery) {
   let currentImage;
 
   function openModal() {
-    console.info('Opening Modal...');
-    // First check if the modal is already open
+    //Checking if the modal is open
     if (modal.matches('.open')) {
-      console.info('Madal already open');
-      return; // stop the function from running
+      return; //Stop the function from running
     }
     modal.classList.add('open');
-
-    // Event listeners to be bound when we open the modal:
-    window.addEventListener('keyup', handleKeyUp);
+    //Binding event listener when opening modal
     nextButton.addEventListener('click', showNextImage);
     prevButton.addEventListener('click', showPrevImage);
+    window.addEventListener('keyup', handleKeyUp);
   }
 
   function closeModal() {
     modal.classList.remove('open');
-    // TODO: add event listeners for clicks and keyboard..
-    window.removeEventListener('keyup', handleKeyUp);
+    //TODO event listener for keyboard and click
     nextButton.removeEventListener('click', showNextImage);
     prevButton.removeEventListener('click', showPrevImage);
+    window.removeEventListener('keyup', handleKeyUp);
   }
 
-  function handleClickOutside(e) {
-    if (e.target === e.currentTarget) {
+  function handleClickOutsideModal(event) {
+    //If the thing the user clicked is the same as the thing you are listening on (the modal), this means the user hasn't clicked on anything in the inner Modal. 
+    if (event.target === event.currentTarget) {
       closeModal();
     }
   }
 
   function handleKeyUp(event) {
+    //Adding the word return stops the function from running further if the condition was met. 
     if (event.key === 'Escape') return closeModal();
     if (event.key === 'ArrowRight') return showNextImage();
     if (event.key === 'ArrowLeft') return showPrevImage();
@@ -47,45 +49,43 @@ function Gallery(gallery) {
   function showNextImage() {
     showImage(currentImage.nextElementSibling || gallery.firstElementChild);
   }
+
   function showPrevImage() {
     showImage(currentImage.previousElementSibling || gallery.lastElementChild);
   }
 
-  function showImage(el) {
-    if (!el) {
-      console.info('no image to show');
+  function showImage(element) {
+    if (!element) {
+      console.info('No image to show.');
       return;
     }
-    // update the modal with this info
-    console.log(el);
-    modal.querySelector('img').src = el.src;
-    modal.querySelector('h2').textContent = el.title;
-    modal.querySelector('figure p').textContent = el.dataset.description;
-    currentImage = el;
+    modal.querySelector('img').src = element.src;
+    modal.querySelector('h2').textContent = element.title;
+    modal.querySelector('figure p').textContent = element.dataset.description;
+    //Keeping track of whatever the current image is. 
+    currentImage = element;
     openModal();
   }
 
-  // These are our Event Listeners!
-  images.forEach(image =>
-    image.addEventListener('click', e => showImage(e.currentTarget))
-  );
+  //Event Listener
+  images.forEach(image => image.addEventListener('click', (e) => showImage(e.currentTarget)));
+  modal.addEventListener('click', handleClickOutsideModal);
 
-  // loop over each image
+  //Loop over each image
   images.forEach(image => {
-    // attach an event listener for each image
+    //Attach an event listener to each
     image.addEventListener('keyup', e => {
-      // when that is keyup'd, check if it was enter
+      //Check if the key is enter, if it is, show the image
       if (e.key === 'Enter') {
-        // if it was, show that image
         showImage(e.currentTarget);
       }
-    });
-  });
+    })
+  })
 
-  modal.addEventListener('click', handleClickOutside);
+
+
 }
-
-// Use it on the page
+//Referencing whatever gallery you'd like to use
 
 const gallery1 = Gallery(document.querySelector('.gallery1'));
 const gallery2 = Gallery(document.querySelector('.gallery2'));
