@@ -2,8 +2,12 @@
 
 ## Face Censorship
 
+- FaceDetector API is an experimental API available only on Chrome and Android (you can turn it on through [chrome flags](chrome://flags/#enable-experimental-web-platform-features).
 - Accessing a user's web cam is a security issues, so they need to grant permission: those are **permission based APIs** in the browser, whose operation is tied to the *origin* (a domain name). So we need to use a local host. 
 - We can use parcel. 
+
+### Recursion
+When a function calls itself inside itself. So it can run infinitely. 
 
 ## Shopping List
 
