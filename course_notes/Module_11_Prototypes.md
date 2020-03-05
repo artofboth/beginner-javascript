@@ -6,7 +6,15 @@ This is the basis of object-oriented programming: creating instances of an objec
 
 Using `new`, we are actually creating an object: an instance of the *constructor* that comes with all the methods relevant to the constructor. 
 
-We can use lteral syntax (`{}`, `[]`) to create arrays and objects instead of the keyword `new`. 
+Certain words in JS (`Date`, `Number`, `Array`, etc) are just functions, and when they are run with the `new` keywork in front of them they return a new object with its associated methods for working with it. 
+
+`const myDate = new Date('February 29, 2020');`
+`myDate` here is an instance of the `Date` object. 
+
+With arrays and objects you can use the literal syntax. The two lines below produce the same result:
+
+`const myArray = ['item 1', 'item 2'];`
+`const myArray = new Array('item 1', 'item 2')`
 
 ```
 function Pizza(type){

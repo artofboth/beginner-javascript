@@ -1,6 +1,6 @@
 # Advances Flow Control
 
-## [What The Heck is the Event Loop?](https://www.youtube.com/watch?v=8aGhZQkoFbQ) - Phillip Roberts
+- [What The Heck is the Event Loop?](https://www.youtube.com/watch?v=8aGhZQkoFbQ) - Phillip Roberts
 
 
 ## Asynchronicity
@@ -46,7 +46,4 @@ dinnerPromise.then(function {
 ```
 - `Promise.race()` allows you to resolve whatever sub-promise is resolved first. 
 
-
-### Event Loop
-Philip Roberts: what the hell is the event loop anyway?
 
