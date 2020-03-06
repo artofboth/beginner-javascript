@@ -45,5 +45,40 @@ dinnerPromise.then(function {
 })
 ```
 - `Promise.race()` allows you to resolve whatever sub-promise is resolved first. 
+---
 
+## Async / Await
 
+Used to temporarily pause a function from running until a promise is resolved.
+
+```
+functio wait(ms = 0){
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    })
+}
+
+async function go(){
+    console.log('Starting')
+    await wait(2000);
+    console.log('Finishing');
+}
+
+go();
+```
+
+You can only use `await` inside of a function marked as `async`. Also note that when you mark a function as `async` it will automatically return a promise to you. 
+
+You can do it with all functions types:
+- Function Declarations: `async function fn(){}`
+- Arrows: `const fn = asyncn () => {}`
+- Callbacks: `window.addEventListener('click', async function(){})`
+- Methods: `const obj = { mth: async function (){}, }`
+
+You can't do *top-level await*, it must de inside an async function. 
+
+### Handling Errors
+
+- You can use `try` and `catch`: it tries a bunch of stuff and then catches anything that goes wrong within the try's code block. You can place `.catch` at the end of async functions (both when they are declared and when they are called)
+
+- 
