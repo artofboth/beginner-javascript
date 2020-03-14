@@ -5,10 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dad Jokes</title>
-  <link rel="stylesheet" href="../../base.css">
+  <link rel="stylesheet" href="../base.css">
   <style>
     html {
       --size: 20px;
+
     }
 
     .wrapper {
@@ -21,14 +22,15 @@
     }
 
     .lds-ripple {
+      box-sizing: border-box;
       display: inline-block;
       position: relative;
-
       width: var(--size);
       height: var(--size);
     }
 
     .lds-ripple div {
+      box-sizing: border-box;
       position: absolute;
       border: 4px solid white;
       opacity: 1;
@@ -37,6 +39,7 @@
     }
 
     .lds-ripple div:nth-child(2) {
+      box-sizing: border-box;
       animation-delay: -0.5s;
     }
 
@@ -70,12 +73,13 @@
       <p>Dad Jokes.</p>
     </div>
     <button class="getJoke">
-      <span class="jokeText">Get A Joke</span>
+      <span class="getJoke__text">Get A Joke</span>
       <div class="lds-ripple loader hidden">
         <div></div>
         <div></div>
       </div>
     </button>
+
   </div>
 
   <script src="./jokes.js"></script>
