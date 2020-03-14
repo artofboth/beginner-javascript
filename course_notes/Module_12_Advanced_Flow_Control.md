@@ -81,4 +81,13 @@ You can't do *top-level await*, it must de inside an async function.
 
 - You can use `try` and `catch`: it tries a bunch of stuff and then catches anything that goes wrong within the try's code block. You can place `.catch` at the end of async functions (both when they are declared and when they are called)
 
-- 
+## Recursion
+*A function calling itself until an exit condition is met*.
+
+
+
+---
+
+
+- *Pure functions* is the idea that a function that takes in the same arguments will always return the same value, so it is easy to test. In functions that return random values, we can pass the randomNumber as an argument, so that we can always test if the function is working by replacing it with a specific number. 
+
