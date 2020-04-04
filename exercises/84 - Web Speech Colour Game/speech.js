@@ -1,37 +1,21 @@
-import { handleResult } from './handlers';
-import { colorsByLength, isDark } from './colors';
-
-const colorsEl = document.querySelector('.colors');
-
-function displayColors(colors) {
-  return colors
-    .map(
-      color =>
-        `<span class="color ${color} ${
-          isDark(color) ? 'dark' : ''
-        }" style="background: ${color};">${color}</span>`
-    )
-    .join('');
-}
-
-window.SpeechRecognition =
-  window.SpeechRecognition || window.webkitSpeechRecognition;
+window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
 function start() {
-  // see if their browser supports this
+  //Check if there is browser support
   if (!('SpeechRecognition' in window)) {
-    console.log('Sorry your browser does not support speech reco. ');
+    console.log('Sorry your browser does not support speech recognition');
     return;
   }
-  // it does work
-  console.log('Starting...');
-  // make a new speech reco
-  const recognition = new SpeechRecognition();
+  console.log('starting...');
+
+  // Make a new speech reco
+  const recognition = new SpeechRecognition();≈
+  // Recognition settings 
   recognition.continuous = true;
-  recognition.interimResults = true;
+  recognition.intermResults = true;
   recognition.onresult = handleResult;
   recognition.start();
+
 }
 
 start();
-colorsEl.innerHTML = displayColors(colorsByLength);
